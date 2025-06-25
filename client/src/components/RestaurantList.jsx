@@ -1,9 +1,11 @@
 import React, {useContext, useEffect} from 'react'
 import RestFinder from '../apis/RestFinder'
 import { RestaurantsContext } from '../context/RestaurantContext';
+import { useNavigate } from 'react-router-dom'
 
 const RestaurantList = (props) => {
     const {restaurants, setRestaurants} = useContext(RestaurantsContext);
+    let navigate = useNavigate();
 
     useEffect( () => {
         async function getEffect(){
@@ -28,6 +30,12 @@ const RestaurantList = (props) => {
         }
     }
 
+    const handleUpdate = (id) =>{
+        navigate(`/restaurants/${id}/update`);
+
+    }
+    const handleDetail = (id) =>{}
+
     return (
         <div className='list-group'>
             <table className="table table-hover table-dark">
@@ -45,12 +53,12 @@ const RestaurantList = (props) => {
                 <tbody>
                     {restaurants && restaurants.map(restaurant => {
                         return(
-                        <tr key={restaurant.id}>
+                        <tr key={restaurant.id} onClick={() => handleDetail(restaurant.id)}>
                             <td>{restaurant.name}</td>
                             <td>{restaurant.location}</td>
                             <td>{"$".repeat(restaurant.price_range)}</td>
                             <td>reviews</td>
-                            <td><button className="btn btn-warning">Update</button></td>
+                            <td><button onClick={() => handleUpdate(restaurant.id)} className="btn btn-warning">Update</button></td>
                             <td><button onClick={() => handleDelete(restaurant.id)} className="btn btn-danger">Delete</button></td>
                         </tr>
                     )})}

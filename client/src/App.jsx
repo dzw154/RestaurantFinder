@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './routes/Home';
-import Update from './routes/UpdateRestaurant';
+import Update from './routes/UpdatePage';
 import Details from './routes/RestaurantDetail';
 import { RestaurantsContextProvide } from './context/RestaurantContext';
 

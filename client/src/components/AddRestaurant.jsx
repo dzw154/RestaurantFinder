@@ -1,9 +1,29 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
+import RestFinder from "../apis/RestFinder";
+import { RestaurantsContext } from "../context/RestaurantContext";
 
 const AddRestaurant = () => {
+    const {addRestaurants} = useContext(RestaurantsContext)
     const [name, setName] = useState("");
     const [location, setLoc] = useState("");
     const [price_range, setPrice] = useState("Price Range");
+
+    const handleSubmit = async (e) =>{
+        e.preventDefault();
+        try{
+            const response = await RestFinder.post("/", {
+                name, 
+                location, 
+                price_range
+            });
+            addRestaurants(response.data.data.restaurant);
+            console.log(response);
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+
     return (
         <div className="mb-4">
             <form action="">
@@ -25,7 +45,7 @@ const AddRestaurant = () => {
                         </select>
                     </div>
                     <div className="col-auto">
-                        <button type="submit" className="btn btn-primary">Add</button>
+                        <button onClick={handleSubmit} type="submit" className="btn btn-primary">Add</button>
                     </div>
                 </div>
             </form>

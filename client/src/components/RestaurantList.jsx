@@ -19,7 +19,8 @@ const RestaurantList = (props) => {
         getEffect();
     }, [setRestaurants]);
 
-    const handleDelete = async (id) =>{
+    const handleDelete = async (e, id) =>{
+        e.stopPropagation();
         try{
             await RestFinder.delete(`/${id}`);
             setRestaurants(restaurants.filter(restaurant => {
@@ -30,11 +31,14 @@ const RestaurantList = (props) => {
         }
     }
 
-    const handleUpdate = (id) =>{
+    const handleUpdate = (e, id) =>{
+        e.stopPropagation();
         navigate(`/restaurants/${id}/update`);
 
     }
-    const handleDetail = (id) =>{}
+    const handleDetail = (id) =>{
+        navigate(`/restaurants/${id}`);
+    }
 
     return (
         <div className='list-group'>
@@ -58,8 +62,8 @@ const RestaurantList = (props) => {
                             <td>{restaurant.location}</td>
                             <td>{"$".repeat(restaurant.price_range)}</td>
                             <td>reviews</td>
-                            <td><button onClick={() => handleUpdate(restaurant.id)} className="btn btn-warning">Update</button></td>
-                            <td><button onClick={() => handleDelete(restaurant.id)} className="btn btn-danger">Delete</button></td>
+                            <td><button onClick={(e) => handleUpdate(e, restaurant.id)} className="btn btn-warning">Update</button></td>
+                            <td><button onClick={(e) => handleDelete(e, restaurant.id)} className="btn btn-danger">Delete</button></td>
                         </tr>
                     )})}
                     {/* <tr>

@@ -1,12 +1,25 @@
 import React, { useState } from "react";
+import RestFinder from "../apis/RestFinder";
+import { useParams } from "react-router-dom";
 
 const AddReview = () =>{
+    const { id } = useParams();
     const [name, setName] = useState("");
     const [reviewText, setText] = useState("");
     const [rating, setRating] = useState("Rating");
 
-    const handleReview = async () =>{
-
+    const handleReview = async (e) =>{
+        e.preventDefault();
+        try{
+            const response = await RestFinder.post(`/${id}/addReview`, {
+                name, 
+                review: reviewText, 
+                rating
+            });
+            window.location.reload();            
+        }catch(err){
+            console.log(err);
+        }
     }
 
     return (
@@ -33,7 +46,7 @@ const AddReview = () =>{
                     <label htmlFor="Review" className="form-label">Review</label>
                     <textarea id="Review" value={reviewText} onChange={(e) => setText(e.target.value)} className="form-control"></textarea>
                 </div>
-                <button className="btn btn-primary" onClick={handleReview}>Submit</button>
+                <button type="submit" className="btn btn-primary" onClick={handleReview}>Submit</button>
             </form>
         </div>
     )
